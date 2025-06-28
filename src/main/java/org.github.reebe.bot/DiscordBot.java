@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.github.reebe.bot.response.ChattingReaction;
+import org.github.reebe.bot.response.SlashCommandReaction;
 
 import java.util.EnumSet;
 
@@ -26,7 +27,10 @@ public class DiscordBot {
                 .enableIntents(intents)
                 // 상메
                 .setActivity(Activity.customStatus("츄르 먹는중..."))
-                .addEventListeners(new ChattingReaction())
+                .addEventListeners(
+                        new ChattingReaction(),
+                        new SlashCommandReaction()
+                )
                 .build();
     }
 }

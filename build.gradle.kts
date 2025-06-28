@@ -22,7 +22,7 @@ dependencies {
 
     implementation("net.dv8tion:JDA:5.6.1")
     implementation("dev.arbjerg:lavaplayer:2.2.4")
-    implementation("dev.lavalink.youtube:common:1.11.2")
+    implementation("dev.lavalink.youtube:common:1.13.3")
 
     implementation("org.slf4j:slf4j-api:2.0.17")
     implementation("ch.qos.logback:logback-classic:1.5.18")

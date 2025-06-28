@@ -5,7 +5,6 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.github.reebe.bot.response.ChattingReaction;
 
-
 import java.util.EnumSet;
 
 public class DiscordBot {

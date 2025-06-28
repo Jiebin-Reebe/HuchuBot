@@ -24,11 +24,9 @@ public class ChattingReaction extends ListenerAdapter {
                 event.getMessage().reply("Reply!").queue();
                 break;
 
-            case "노래" :
-            case "play" :
+            case "ㄴㄹ" :
                 playMusic(event, parts[1]);
                 break;
-
         }
     }
 

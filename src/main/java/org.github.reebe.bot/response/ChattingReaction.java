@@ -10,15 +10,9 @@ public class ChattingReaction extends ListenerAdapter {
         String str = event.getMessage().getContentDisplay();
 
         switch(str) {
-            case "ping" :
-            case "핑" :
-                event.getChannel().sendMessage("Pong!").queue();
-                break;
-
-            case "대답" :
-            case "reply" :
-                event.getMessage().reply("Reply!").queue();
-                break;
+            case "뭐해" :
+            case "뭐해?" :
+                event.getMessage().reply("그러게 뭐할까").queue();
         }
     }
 }

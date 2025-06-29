@@ -41,12 +41,6 @@ public class MusicCommand extends ListenerAdapter {
             case "!l":
                 leaveChannel(event);
                 break;
-
-            // clear the queue
-            case "!ㅂ":
-            case "!c":
-                clearQueue(event);
-                break;
         }
     }
 
@@ -105,11 +99,5 @@ public class MusicCommand extends ListenerAdapter {
         } else {
             event.getChannel().sendMessage("쉬고 있는데 왜 부르냥").queue();
         }
-    }
-
-    public void clearQueue(MessageReceivedEvent event) {
-        var manager = PlayerManager.getINSTANCE().getMusicManager(event.getGuild());
-        manager.scheduler.clearQueue();
-        event.getChannel().sendMessage("큐를 먹었다냥").queue();
     }
 }

@@ -4,7 +4,6 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.github.reebe.bot.commands.ChattingReaction;
-import org.github.reebe.bot.commands.MusicCommand;
 import org.github.reebe.bot.commands.SlashCommandReaction;
 
 import java.util.EnumSet;

@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.github.reebe.bot.commands.ChattingReaction;
+import org.github.reebe.bot.commands.MusicCommand;
 import org.github.reebe.bot.commands.SlashCommandReaction;
 
 import java.util.EnumSet;
@@ -11,7 +12,7 @@ import java.util.EnumSet;
 public class DiscordBot {
 
     public static void main(String[] args) {
-        BotTokenManager tokenManager = new BotTokenManager();
+        org.github.reebe.bot.BotTokenManager tokenManager = new org.github.reebe.bot.BotTokenManager();
         String token = tokenManager.getDiscordBotToken();
 
         EnumSet<GatewayIntent> intents = EnumSet.of(

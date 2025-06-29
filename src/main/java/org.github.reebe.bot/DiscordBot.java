@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.github.reebe.bot.commands.ChattingReaction;
 import org.github.reebe.bot.commands.MusicCommand;
 import org.github.reebe.bot.commands.SlashCommandReaction;
+import org.github.reebe.bot.managers.BotTokenManager;
+import org.github.reebe.bot.managers.ShutdownManager;
 
 import java.util.EnumSet;
 

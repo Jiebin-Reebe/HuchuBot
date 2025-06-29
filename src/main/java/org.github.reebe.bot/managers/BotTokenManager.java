@@ -1,4 +1,4 @@
-package org.github.reebe.bot;
+package org.github.reebe.bot.managers;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +12,7 @@ public class BotTokenManager {
     }
 
     private void settingToken() {
-        try(InputStream input = getClass().getClassLoader().getResourceAsStream("/DiscordBotToken.properties")) {
+        try(InputStream input = getClass().getClassLoader().getResourceAsStream("DiscordBotToken.properties")) {
             Properties properties = new Properties();
             properties.load(input);
             DiscordBotToken = properties.getProperty("Token");

@@ -1,4 +1,4 @@
-package org.github.reebe.bot;
+package org.github.reebe.bot.managers;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;

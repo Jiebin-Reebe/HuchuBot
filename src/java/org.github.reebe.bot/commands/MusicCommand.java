@@ -65,7 +65,7 @@ public class MusicCommand extends ListenerAdapter {
         var manager = PlayerManager.getINSTANCE().getMusicManager(event.getGuild());
         manager.audioPlayer.stopTrack();
         manager.scheduler.clearQueue();
-        event.getChannel().sendMessage("⏹️ 음악을 정지하고 큐를 비웠습니다.").queue();
+        event.getChannel().sendMessage("음악이랑 큐를 없앴다냥").queue();
     }
 
     public void showQueue(MessageReceivedEvent event) {

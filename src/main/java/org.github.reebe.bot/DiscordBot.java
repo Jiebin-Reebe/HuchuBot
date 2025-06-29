@@ -12,7 +12,7 @@ import java.util.EnumSet;
 public class DiscordBot {
 
     public static void main(String[] args) {
-        org.github.reebe.bot.BotTokenManager tokenManager = new org.github.reebe.bot.BotTokenManager();
+        BotTokenManager tokenManager = new BotTokenManager();
         String token = tokenManager.getDiscordBotToken();
 
         EnumSet<GatewayIntent> intents = EnumSet.of(
@@ -24,15 +24,19 @@ public class DiscordBot {
                 GatewayIntent.GUILD_VOICE_STATES
         );
 
-        JDABuilder.createDefault(token)
+        JDABuilder builder = JDABuilder.createDefault(token)
                 .enableIntents(intents)
                 // 상메
                 .setActivity(Activity.customStatus("츄르 먹는중..."))
+                // 이벤트 리스너
                 .addEventListeners(
                         new MusicCommand(),
                         new ChattingReaction(),
                         new SlashCommandReaction()
-                )
-                .build();
+                );
+        var jda = builder.build();
+
+        //JVM 종료시 음성 채널에서 나감
+        ShutdownManager.registerShutdownHook(jda);
     }
 }

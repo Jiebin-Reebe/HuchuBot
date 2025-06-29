@@ -3,6 +3,7 @@ package org.github.reebe.bot.music;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 
+// 되도록 건드리지 말도록
 public class GuildMusicManager {
 
     public final AudioPlayer audioPlayer;

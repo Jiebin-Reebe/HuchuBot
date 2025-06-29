@@ -53,42 +53,70 @@ public class PlayerManager {
         });
     }
 
-    public void loadAndPlay(TextChannel textChannel, String trackURL, Member client) {
+    public void loadAndPlay(TextChannel textChannel, String input, Member client) {
         final GuildMusicManager musicManager = this.getMusicManager(textChannel.getGuild());
+        musicManager.scheduler.setTextChannel(textChannel);
+
+        String trackURL;
+
+        if (input.startsWith("https://")) {
+            trackURL = input;
+        } else {
+            trackURL = "ytsearch:" + input;
+        }
+
         this.audioPlayerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
-                // 트랙 대기열 추가
-                musicManager.scheduler.queue(audioTrack);
-                textChannel.sendMessageFormat("재생 중인 곡: `%s` (by `%s`)",
-                        audioTrack.getInfo().title,
-                        audioTrack.getInfo().author
-                ).queue();
+                if (musicManager.audioPlayer.getPlayingTrack() != null) {
+                    // 이미 재생 중이면 큐에 넣고 메시지 보냄
+                    musicManager.scheduler.queue(audioTrack);
+                    // 메시지는 queue() 메서드 안에서 처리하므로 여기서는 생략 가능
+                } else {
+                    // 재생 중이 아니면 바로 재생
+                    musicManager.audioPlayer.startTrack(audioTrack, false);
+                    textChannel.sendMessageFormat(
+                            "▶ 지금 재생중: '%s' (by '%s')",
+                            audioTrack.getInfo().title,
+                            audioTrack.getInfo().author
+                    ).queue();
+                }
             }
 
             @Override
-            public void playlistLoaded(AudioPlaylist audioPlaylist) {
-                // 플레이리스트 처리
-                AudioTrack firstTrack = audioPlaylist.getSelectedTrack() != null
-                        ? audioPlaylist.getSelectedTrack()
-                        : audioPlaylist.getTracks().get(0);
-
-                musicManager.scheduler.queue(firstTrack);
+            public void playlistLoaded(AudioPlaylist playlist) {
+                if (playlist.isSearchResult()) {
+                    AudioTrack first = playlist.getTracks().get(0);
+                    if (musicManager.audioPlayer.getPlayingTrack() != null) {
+                        musicManager.scheduler.queue(first);
+                    } else {
+                        musicManager.audioPlayer.startTrack(first, false);
+                        textChannel.sendMessageFormat(
+                                "▶ 지금 재생중: '%s' (by '%s')",
+                                first.getInfo().title,
+                                first.getInfo().author
+                        ).queue();
+                    }
+                    return;
+                }
+                for (AudioTrack track : playlist.getTracks()) {
+                    musicManager.scheduler.queue(track);
+                }
                 textChannel.sendMessageFormat(
-                        "재생 중인 곡: `%s` (by `%s`)",
-                        firstTrack.getInfo().title,
-                        firstTrack.getInfo().author
+                        "▶ 재생목록 '%s' 의 총 %d곡을 대기열에 추가했다냥",
+                        playlist.getName(),
+                        playlist.getTracks().size()
                 ).queue();
             }
 
             @Override
             public void noMatches() {
-                textChannel.sendMessage("일치하는 결과가 없습니다. " + trackURL).queue();
+                textChannel.sendMessage("❌ 일치하는 결과가 없다냥: " + trackURL).queue();
             }
 
             @Override
             public void loadFailed(FriendlyException e) {
-                textChannel.sendMessage("재생할 수 없습니다. " +  e.getMessage()).queue();
+                textChannel.sendMessage("⚠️ 재생할 수 없다냥: " +  e.getMessage()).queue();
             }
         });
     }

@@ -15,8 +15,8 @@ public class MusicCommand extends ListenerAdapter {
 
         switch (command) {
             // play
-            case "p":
-            case "ㅍ":
+            case "!ㅍ":
+            case "!p":
                 if (parts.length < 2) {
                     event.getChannel().sendMessage("노래제목을 넣으라냥");
                 } else {
@@ -25,26 +25,26 @@ public class MusicCommand extends ListenerAdapter {
                 break;
 
             // stop
-            case "s":
-            case "ㄴ":
+            case "!ㅅ":
+            case "!s":
                 stopMusic(event);
                 break;
 
             // queue
-            case "q":
-            case "큐":
+            case "!ㅋ":
+            case "!q":
                 showQueue(event);
                 break;
 
             // leave
-            case "l":
-            case "ㄲ":
+            case "!ㄴ":
+            case "!l":
                 leaveChannel(event);
                 break;
 
             // clear the queue
-            case "c":
-            case "ㅂ":
+            case "!ㅂ":
+            case "!c":
                 clearQueue(event);
                 break;
         }

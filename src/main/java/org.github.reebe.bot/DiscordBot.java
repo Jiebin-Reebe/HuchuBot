@@ -3,8 +3,9 @@ package org.github.reebe.bot;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import org.github.reebe.bot.response.ChattingReaction;
-import org.github.reebe.bot.response.SlashCommandReaction;
+import org.github.reebe.bot.commands.ChattingReaction;
+import org.github.reebe.bot.commands.MusicCommand;
+import org.github.reebe.bot.commands.SlashCommandReaction;
 
 import java.util.EnumSet;
 
@@ -28,6 +29,7 @@ public class DiscordBot {
                 // 상메
                 .setActivity(Activity.customStatus("츄르 먹는중..."))
                 .addEventListeners(
+                        new MusicCommand(),
                         new ChattingReaction(),
                         new SlashCommandReaction()
                 )

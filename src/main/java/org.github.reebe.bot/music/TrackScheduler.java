@@ -37,4 +37,12 @@ public class TrackScheduler extends AudioEventAdapter {
     public void nextTrack() {
         this.audioPlayer.startTrack(this.queue.poll(), false);
     }
+
+    public BlockingQueue<AudioTrack> getQueue() {
+        return queue;
+    }
+
+    public void clearQueue() {
+        queue.clear();
+    }
 }

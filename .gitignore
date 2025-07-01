@@ -4,6 +4,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 DiscordBotToken.properties
+user_stats.json
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

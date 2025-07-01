@@ -15,7 +15,10 @@ public class MusicCommand extends ListenerAdapter {
 
         switch (command) {
             // play
+            case "!재생":
+            case "!플레이":
             case "!ㅍ":
+            case "!play":
             case "!p":
                 if (parts.length < 2) {
                     event.getChannel().sendMessage("노래제목을 넣으라냥 🎵").queue();
@@ -24,33 +27,43 @@ public class MusicCommand extends ListenerAdapter {
                 }
                 break;
 
-            // stop
-            case "!ㅅ":
-            case "!s":
-                stopMusic(event);
+            // 일시정지
+            case "!일시정지":
+            case "!ㅇ":
+            case "!i":
+                togglePause(event);
                 break;
 
             // clear
+            case "!제거":
             case "!ㅊ":
+            case "!clear":
             case "!c":
                 clearQueue(event);
                 break;
 
             // queue
+            case "!재생목록":
             case "!ㅋ":
+            case "!queue":
             case "!q":
                 showQueue(event);
                 break;
 
             // leave
+            case "!나가기":
+            case "!나가":
             case "!ㄴ":
+            case "!leave":
             case "!l":
                 clearQueue(event);
                 leaveChannel(event);
                 break;
 
             // remove
+            case "!삭제":
             case "!ㄹ":
+            case "!remove":
             case "!r":
                 if (parts.length < 2) {
                     event.getChannel().sendMessage("제거할 곡 번호를 입력하라냥! 🗑️").queue();
@@ -58,6 +71,13 @@ public class MusicCommand extends ListenerAdapter {
                     removeFromQueue(event, parts[1].trim());
                 }
                 break;
+
+            // skip
+            case "!스킵":
+            case "!ㅅ":
+            case "!skip":
+            case "!s":
+                skipMusic(event);
         }
     }
 
@@ -77,11 +97,11 @@ public class MusicCommand extends ListenerAdapter {
         PlayerManager.getINSTANCE().loadAndPlay(event.getChannel().asTextChannel(), text, event.getMember());
     }
 
-    public void stopMusic(MessageReceivedEvent event) {
+    /*public void stopMusic(MessageReceivedEvent event) {
         var manager = PlayerManager.getINSTANCE().getMusicManager(event.getGuild());
         manager.audioPlayer.stopTrack();
         event.getChannel().sendMessage("⏹️ 음악을 정지했다냥! 대기열은 그대로 남아있다냥.").queue();
-    }
+    }*/
 
     public void clearQueue(MessageReceivedEvent event) {
         var manager = PlayerManager.getINSTANCE().getMusicManager(event.getGuild());
@@ -172,5 +192,33 @@ public class MusicCommand extends ListenerAdapter {
         event.getChannel().sendMessage("❌ '" + removed.getInfo().title + "' 을(를) 대기열에서 제거했디냥").queue();
     }
 
+    public void togglePause(MessageReceivedEvent event) {
+        var manager = PlayerManager.getINSTANCE().getMusicManager(event.getGuild());
 
+        if (manager.audioPlayer.getPlayingTrack() == null) {
+            event.getChannel().sendMessage("지금 재생 중인 곡이 없다냥 😿").queue();
+            return;
+        }
+
+        boolean isPaused = manager.audioPlayer.isPaused();
+        manager.audioPlayer.setPaused(!isPaused);
+
+        if (isPaused) {
+            event.getChannel().sendMessage("▶ 일시정지된 곡을 다시 재생했다냥!").queue();
+        } else {
+            event.getChannel().sendMessage("⏸️ 곡을 일시정지했다냥!").queue();
+        }
+    }
+
+    public void skipMusic(MessageReceivedEvent event) {
+        var manager = PlayerManager.getINSTANCE().getMusicManager(event.getGuild());
+
+        if (manager.audioPlayer.getPlayingTrack() == null && manager.scheduler.getQueue().isEmpty()) {
+            event.getChannel().sendMessage("⏭️ 스킵할 곡이 없다냥!").queue();
+            return;
+        }
+
+        manager.scheduler.nextTrack();
+        event.getChannel().sendMessage("⏭️ 다음 곡으로 스킵했다냥!").queue();
+    }
 }

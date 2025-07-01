@@ -1,10 +1,7 @@
-package org.github.reebe.bot.commands;
+package bot.commands;
 
-import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.managers.AudioManager;
-import org.github.reebe.bot.music.PlayerManager;
 
 public class ChattingReaction extends ListenerAdapter {
 

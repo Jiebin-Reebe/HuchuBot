@@ -1,10 +1,10 @@
-package org.github.reebe.bot.commands;
+package bot.commands;
 
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
-import org.github.reebe.bot.music.PlayerManager;
+import bot.music.PlayerManager;
 
 public class MusicCommand extends ListenerAdapter {
     @Override
@@ -45,6 +45,7 @@ public class MusicCommand extends ListenerAdapter {
             // leave
             case "!ㄴ":
             case "!l":
+                clearQueue(event);
                 leaveChannel(event);
                 break;
 

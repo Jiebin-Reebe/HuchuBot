@@ -1,4 +1,4 @@
-package org.github.reebe.bot.music;
+package bot.music;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioConfiguration;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;

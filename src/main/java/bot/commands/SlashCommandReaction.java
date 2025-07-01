@@ -1,4 +1,4 @@
-package org.github.reebe.bot.commands;
+package bot.commands;
 
 
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;

@@ -1,4 +1,4 @@
-package org.github.reebe.bot.managers;
+package bot.managers;
 
 import java.io.IOException;
 import java.io.InputStream;

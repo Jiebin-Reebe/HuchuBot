@@ -1,5 +1,7 @@
 package bot;
 
+import bot.commands.UserStatsCommand;
+import bot.tracking.UserStatsTracker;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -34,7 +36,9 @@ public class DiscordBot {
                 .addEventListeners(
                         new MusicCommand(),
                         new ChattingReaction(),
-                        new SlashCommandReaction()
+                        new SlashCommandReaction(),
+                        new UserStatsTracker(),
+                        new UserStatsCommand()
                 );
         var jda = builder.build();
 

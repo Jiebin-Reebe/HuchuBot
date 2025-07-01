@@ -78,6 +78,15 @@ public class MusicCommand extends ListenerAdapter {
             case "!skip":
             case "!s":
                 skipMusic(event);
+                break;
+
+            // repeat
+            case "!반복":
+            case "!ㅂ":
+            case "!repeat":
+            case "!b":
+                toggleRepeat(event);
+                break;
         }
     }
 
@@ -221,4 +230,16 @@ public class MusicCommand extends ListenerAdapter {
         manager.scheduler.nextTrack();
         event.getChannel().sendMessage("⏭️ 다음 곡으로 스킵했다냥!").queue();
     }
+
+    public void toggleRepeat(MessageReceivedEvent event) {
+        var scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).scheduler;
+
+        scheduler.toggleRepeat();
+        if (scheduler.isRepeatEnabled()) {
+            event.getChannel().sendMessage("🔁 반복 재생을 켰다냥!").queue();
+        } else {
+            event.getChannel().sendMessage("⏹️ 반복 재생을 껐다냥!").queue();
+        }
+    }
+
 }

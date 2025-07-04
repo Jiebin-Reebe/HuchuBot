@@ -1,7 +1,9 @@
 package bot;
 
-import bot.commands.UserStatsCommand;
-import bot.tracking.UserStatsTracker;
+import bot.managers.MessageStatsManager;
+import bot.system.XpSystem;
+import bot.trackers.MessageHistoryScanner;
+import bot.trackers.MessageTracker;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -11,11 +13,13 @@ import bot.commands.SlashCommandReaction;
 import bot.managers.BotTokenManager;
 import bot.managers.ShutdownManager;
 
+import java.sql.SQLException;
 import java.util.EnumSet;
 
 public class DiscordBot {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+        MessageStatsManager db = new MessageStatsManager("message_stats.db");
         BotTokenManager tokenManager = new BotTokenManager();
         String token = tokenManager.getDiscordBotToken();
 
@@ -34,11 +38,12 @@ public class DiscordBot {
                 .setActivity(Activity.customStatus("츄르 먹는중..."))
                 // 이벤트 리스너
                 .addEventListeners(
+                        new MessageHistoryScanner(db),
+                        new MessageTracker(db),
+                        new XpSystem(db, 1.0),
                         new MusicCommand(),
                         new ChattingReaction(),
-                        new SlashCommandReaction(),
-                        new UserStatsTracker(),
-                        new UserStatsCommand()
+                        new SlashCommandReaction()
                 );
         var jda = builder.build();
 

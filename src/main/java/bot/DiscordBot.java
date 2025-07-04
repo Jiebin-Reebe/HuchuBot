@@ -1,6 +1,6 @@
 package bot;
 
-import bot.commands.XpCommand;
+import bot.commands.MessageXpCommand;
 import bot.managers.MessageStatsManager;
 import bot.system.XpSystem;
 import bot.trackers.MessageHistoryScanner;
@@ -44,7 +44,7 @@ public class DiscordBot {
                         new MessageHistoryScanner(db),
                         new MessageTracker(db),
                         xpSystem,
-                        new XpCommand(xpSystem, db),
+                        new MessageXpCommand(xpSystem, db),
                         new MusicCommand(),
                         new ChattingReaction(),
                         new SlashCommandReaction()

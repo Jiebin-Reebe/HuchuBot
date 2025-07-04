@@ -11,12 +11,12 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class XpCommand extends ListenerAdapter {
+public class MessageXpCommand extends ListenerAdapter {
 
     private final XpSystem xpSystem;
     private final MessageStatsManager db;
 
-    public XpCommand(XpSystem xpSystem, MessageStatsManager db) {
+    public MessageXpCommand(XpSystem xpSystem, MessageStatsManager db) {
         this.xpSystem = xpSystem;
         this.db = db;
     }
@@ -28,14 +28,22 @@ public class XpCommand extends ListenerAdapter {
         String content = event.getMessage().getContentRaw();
         if (!content.startsWith("!")) return;
 
-        String[] parts = content.split("\\s+");
-        String command = parts[0].toLowerCase();
+        String[] parts = content.split(" ", 2);
+        String command = parts[0];
 
         try {
-            if (command.equals("!msgcount")) {
-                handleMsgCount(event, parts);
-            } else if (command.equals("!leaderboard")) {
-                handleLeaderboard(event);
+            switch (command) {
+                case "!ㅁㅅㅈ수":
+                case "!메세지수":
+                case "!msgcount":
+                case "!msgc":
+                    handleMsgCount(event, parts);
+
+                case "!리더보드":
+                case "!순위":
+                case "!ㅅㅇ":
+                case "!leaderboard":
+                    handleLeaderboard(event);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -74,7 +82,9 @@ public class XpCommand extends ListenerAdapter {
         Map<String, Integer> stats = db.getUserStats(userId);
         int messageCount = stats.getOrDefault("message_count", 0);
 
-        String response = String.format("%s 님의 XP 정보:\n" +
+        String mention = "<@" + userId + ">";
+
+        String response = String.format(mention +  " 님의 XP 정보:\n" +
                         "- 레벨: %d\n" +
                         "- 총 XP: %.1f (메세지 %d)\n",
                 userTag, level, totalXp, messageCount);

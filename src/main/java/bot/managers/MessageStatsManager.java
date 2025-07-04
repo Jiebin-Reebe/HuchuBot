@@ -13,10 +13,17 @@ public class MessageStatsManager {
             stmt.executeUpdate("""
                 CREATE TABLE IF NOT EXISTS message_stats (
                     user_id TEXT PRIMARY KEY,
-                    message_count INTEGER NOT NULL DEFAULT 0,
-                    voice_minutes INTEGER NOT NULL DEFAULT 0
+                    message_count INTEGER NOT NULL DEFAULT 0
                 );
             """);
+
+            try {
+                stmt.executeUpdate("ALTER TABLE message_stats ADD COLUMN voice_minutes INTEGER NOT NULL DEFAULT 0;");
+            } catch (SQLException e) {
+                if (!e.getMessage().contains("duplicate column name")) {
+                    throw e;
+                }
+            }
         }
     }
 

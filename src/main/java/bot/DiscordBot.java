@@ -1,5 +1,6 @@
 package bot;
 
+import bot.commands.XpCommand;
 import bot.managers.MessageStatsManager;
 import bot.system.XpSystem;
 import bot.trackers.MessageHistoryScanner;
@@ -20,6 +21,8 @@ public class DiscordBot {
 
     public static void main(String[] args) throws SQLException {
         MessageStatsManager db = new MessageStatsManager("message_stats.db");
+        XpSystem xpSystem = new XpSystem(db);
+
         BotTokenManager tokenManager = new BotTokenManager();
         String token = tokenManager.getDiscordBotToken();
 
@@ -40,7 +43,8 @@ public class DiscordBot {
                 .addEventListeners(
                         new MessageHistoryScanner(db),
                         new MessageTracker(db),
-                        new XpSystem(db, 1.0),
+                        xpSystem,
+                        new XpCommand(xpSystem, db),
                         new MusicCommand(),
                         new ChattingReaction(),
                         new SlashCommandReaction()

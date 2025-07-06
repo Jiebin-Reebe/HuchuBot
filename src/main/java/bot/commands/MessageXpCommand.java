@@ -71,6 +71,11 @@ public class MessageXpCommand extends ListenerAdapter {
         double totalXp = xpSystem.getTotalXp(userId);
         int level = xpSystem.calculateLevel(totalXp);
 
+        double nextLevelXp = 3.75 * (level + 1) * (level + 2);
+        double remainingXp = nextLevelXp - totalXp;
+
+        String progressBar = xpSystem.getProgressBar(totalXp, level);
+
         Map<String, Integer> stats = db.getUserStats(userId);
         int messageCount = stats.getOrDefault("message_count", 0);
         String mention = "<@" + userId + ">";
@@ -82,6 +87,8 @@ public class MessageXpCommand extends ListenerAdapter {
                 .addField("레벨", String.valueOf(level), true)
                 .addField("XP", String.format("%.1f", totalXp), true)
                 .addField("메시지 수", String.valueOf(messageCount), true)
+                .addField("다음 레벨까지 남은 XP", String.format("%.1f", remainingXp), false)
+                .addField("진행도", progressBar, false)
                 .setFooter("메시지 기반 XP 시스템");
 
         event.getChannel().sendMessageEmbeds(embed.build()).queue();

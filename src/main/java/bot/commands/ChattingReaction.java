@@ -20,7 +20,7 @@ public class ChattingReaction extends ListenerAdapter {
                 break;
 
             case "!메세지수":
-
+                
         }
     }
 }

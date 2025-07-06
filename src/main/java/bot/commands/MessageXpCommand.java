@@ -2,13 +2,16 @@ package bot.commands;
 
 import bot.managers.MessageStatsManager;
 import bot.system.XpSystem;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+import java.awt.*;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class MessageXpCommand extends ListenerAdapter {
@@ -38,16 +41,18 @@ public class MessageXpCommand extends ListenerAdapter {
                 case "!msgcount":
                 case "!msgc":
                     handleMsgCount(event, parts);
+                    break;
 
                 case "!리더보드":
                 case "!순위":
                 case "!ㅅㅇ":
                 case "!leaderboard":
                     handleLeaderboard(event);
+                    break;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            event.getChannel().sendMessage("DB 오류가 발생했습니다.").queue();
+            event.getChannel().sendMessage("❌ DB 오류가 발생했습니다.").queue();
         }
     }
 
@@ -55,41 +60,31 @@ public class MessageXpCommand extends ListenerAdapter {
         String userId;
 
         if (parts.length > 1 && !event.getMessage().getMentions().getUsers().isEmpty()) {
-            // 멘션된 첫 번째 유저 가져오기
             User mentionedUser = event.getMessage().getMentions().getUsers().get(0);
-            Member mentionedMember = event.getGuild().getMember(mentionedUser);
-            if (mentionedMember != null) {
-                userId = mentionedMember.getId();
-            } else {
-                // 멤버가 없으면 User ID 직접 사용
-                userId = mentionedUser.getId();
-            }
+            userId = mentionedUser.getId();
         } else if (parts.length > 1) {
-            // 멘션 없이 ID 직접 입력했을 때
             userId = parts[1];
         } else {
-            // 아무것도 없으면 명령어 작성자 본인
             userId = event.getAuthor().getId();
         }
 
         double totalXp = xpSystem.getTotalXp(userId);
         int level = xpSystem.calculateLevel(totalXp);
 
-        String userTag = event.getJDA().getUserById(userId) != null
-                ? event.getJDA().getUserById(userId).getAsTag()
-                : userId;
-
         Map<String, Integer> stats = db.getUserStats(userId);
         int messageCount = stats.getOrDefault("message_count", 0);
-
         String mention = "<@" + userId + ">";
 
-        String response = String.format(mention +  " 님의 XP 정보:\n" +
-                        "- 레벨: %d\n" +
-                        "- 총 XP: %.1f (메세지 %d)\n",
-                userTag, level, totalXp, messageCount);
+        EmbedBuilder embed = new EmbedBuilder()
+                .setTitle("📊 유저 XP 정보")
+                .setColor(Color.CYAN)
+                .setDescription(mention + "님의 통계입니다.")
+                .addField("레벨", String.valueOf(level), true)
+                .addField("XP", String.format("%.1f", totalXp), true)
+                .addField("메시지 수", String.valueOf(messageCount), true)
+                .setFooter("메시지 기반 XP 시스템");
 
-        event.getChannel().sendMessage(response).queue();
+        event.getChannel().sendMessageEmbeds(embed.build()).queue();
     }
 
     private void handleLeaderboard(MessageReceivedEvent event) throws SQLException {
@@ -98,7 +93,6 @@ public class MessageXpCommand extends ListenerAdapter {
         Map<String, Double> xpMap = new HashMap<>();
         for (Map.Entry<String, int[]> entry : allStats.entrySet()) {
             int messageCount = entry.getValue()[0];
-            int voiceMinutes = entry.getValue()[1];
             double xp = xpSystem.calculateXp(messageCount);
             xpMap.put(entry.getKey(), xp);
         }
@@ -108,7 +102,11 @@ public class MessageXpCommand extends ListenerAdapter {
                 .limit(10)
                 .collect(Collectors.toList());
 
-        StringBuilder sb = new StringBuilder("🏆 서버 XP 리더보드 TOP 10\n\n");
+        EmbedBuilder embed = new EmbedBuilder()
+                .setTitle("🏆 서버 XP 리더보드")
+                .setColor(Color.ORANGE)
+                .setFooter("메시지 기반 XP 시스템");
+
         int rank = 1;
         for (Map.Entry<String, Double> entry : topList) {
             String userId = entry.getKey();
@@ -116,10 +114,10 @@ public class MessageXpCommand extends ListenerAdapter {
             int level = xpSystem.calculateLevel(totalXp);
 
             String mention = "<@" + userId + ">";
-
-            sb.append(String.format("%d. %s — 레벨 %d, XP %.1f\n", rank++, mention, level, totalXp));
+            embed.addField(rank + "위", mention + "\n레벨 " + level + " | XP " + String.format("%.1f", totalXp), false);
+            rank++;
         }
 
-        event.getChannel().sendMessage(sb.toString()).queue();
+        event.getChannel().sendMessageEmbeds(embed.build()).queue();
     }
 }

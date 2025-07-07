@@ -1,16 +1,13 @@
 package bot;
 
-import bot.commands.MessageXpCommand;
-import bot.managers.MessageStatsManager;
-import bot.system.XpSystem;
-import bot.trackers.MessageHistoryScanner;
-import bot.trackers.MessageTracker;
+import bot.commands.*;
+import bot.managers.*;
+import bot.system.*;
+import bot.tools.*;
+
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import bot.commands.ChattingReaction;
-import bot.commands.MusicCommand;
-import bot.commands.SlashCommandReaction;
 import bot.managers.BotTokenManager;
 import bot.managers.ShutdownManager;
 
@@ -41,13 +38,18 @@ public class DiscordBot {
                 .setActivity(Activity.customStatus("츄르 먹는중..."))
                 // 이벤트 리스너
                 .addEventListeners(
-                        new MessageHistoryScanner(db),
-                        new MessageTracker(db),
                         xpSystem,
+
                         new MessageXpCommand(xpSystem, db),
                         new MusicCommand(),
+                        new RoleGiverCommand(),
                         new ChattingReaction(),
-                        new SlashCommandReaction()
+                        new SlashCommandReaction(),
+
+                        new RoleButtonListener(),
+                        new RoleSelectMenuListener(),
+                        new MessageHistoryScanner(db),
+                        new MessageTracker(db)
                 );
         var jda = builder.build();
 

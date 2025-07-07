@@ -19,8 +19,8 @@ public class ChattingReaction extends ListenerAdapter {
                 event.getMessage().reply("서버장은 리베다냥").queue();
                 break;
 
-            case "!메세지수":
-                
+            case "!명령어":
+                // 버전 1.0.0때 추가예정
         }
     }
 }

@@ -11,6 +11,7 @@ public class BotTokenManager {
         settingToken();
     }
 
+    // DiscordBotToken.properties is hidden in gitHub repository
     private void settingToken() {
         try(InputStream input = getClass().getClassLoader().getResourceAsStream("DiscordBotToken.properties")) {
             Properties properties = new Properties();

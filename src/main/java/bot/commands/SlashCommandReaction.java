@@ -1,17 +1,12 @@
 package bot.commands;
 
-
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.dv8tion.jda.api.interactions.commands.build.Commands;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 
 public class SlashCommandReaction extends ListenerAdapter {
 

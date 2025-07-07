@@ -1,6 +1,7 @@
 package bot.system;
 
 import bot.managers.MessageStatsManager;
+
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.sql.SQLException;

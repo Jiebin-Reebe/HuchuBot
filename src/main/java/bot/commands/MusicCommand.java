@@ -16,7 +16,6 @@ public class MusicCommand extends ListenerAdapter {
         switch (command) {
             // play
             case "!재생":
-            case "!플레이":
             case "!ㅍ":
             case "!play":
             case "!p":
@@ -30,12 +29,13 @@ public class MusicCommand extends ListenerAdapter {
             // 일시정지
             case "!일시정지":
             case "!ㅇ":
+            case "!ilsijungji":
             case "!i":
                 togglePause(event);
                 break;
 
             // clear
-            case "!제거":
+            case "!삭제":
             case "!ㅊ":
             case "!clear":
             case "!c":
@@ -51,7 +51,6 @@ public class MusicCommand extends ListenerAdapter {
                 break;
 
             // leave
-            case "!나가기":
             case "!나가":
             case "!ㄴ":
             case "!leave":
@@ -61,7 +60,7 @@ public class MusicCommand extends ListenerAdapter {
                 break;
 
             // remove
-            case "!삭제":
+            case "!제거":
             case "!ㄹ":
             case "!remove":
             case "!r":
@@ -106,11 +105,13 @@ public class MusicCommand extends ListenerAdapter {
         PlayerManager.getINSTANCE().loadAndPlay(event.getChannel().asTextChannel(), text, event.getMember());
     }
 
-    /*public void stopMusic(MessageReceivedEvent event) {
+    /*
+    public void stopMusic(MessageReceivedEvent event) {
         var manager = PlayerManager.getINSTANCE().getMusicManager(event.getGuild());
         manager.audioPlayer.stopTrack();
         event.getChannel().sendMessage("⏹️ 음악을 정지했다냥! 대기열은 그대로 남아있다냥.").queue();
-    }*/
+    }
+    */
 
     public void clearQueue(MessageReceivedEvent event) {
         var manager = PlayerManager.getINSTANCE().getMusicManager(event.getGuild());

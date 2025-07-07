@@ -36,17 +36,17 @@ public class MessageXpCommand extends ListenerAdapter {
 
         try {
             switch (command) {
-                case "!ㅁㅅㅈ수":
-                case "!메세지수":
-                case "!msgcount":
-                case "!msgc":
+                case "!내정보":
+                case "!ㅈㅂ":
+                case "!myinfo":
+                case "!info":
                     handleMsgCount(event, parts);
                     break;
 
-                case "!리더보드":
                 case "!순위":
                 case "!ㅅㅇ":
                 case "!leaderboard":
+                case "!lb":
                     handleLeaderboard(event);
                     break;
             }

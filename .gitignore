@@ -3,9 +3,6 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-DiscordBotToken.properties
-RoleId.properties
-message_stats.db
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

@@ -29,7 +29,7 @@ public class MusicCommand extends ListenerAdapter {
             // 일시정지
             case "!일시정지":
             case "!ㅇ":
-            case "!ilsijungji":
+            case "!pause":
             case "!i":
                 togglePause(event);
                 break;

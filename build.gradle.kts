@@ -5,6 +5,8 @@ plugins {
 group = "org.example"
 version = "1.0-SNAPSHOT"
 
+task stage(dependsOn: ['build'])
+
 repositories {
     mavenCentral()
 
